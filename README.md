@@ -1,5 +1,6 @@
-# UK University Archery ELeague
----
+# UK University Archery E-League
+
+The website for the UK university archery e-league, a competition that universities take part in that spans the indoor competitive season.
 
 ### License
 
