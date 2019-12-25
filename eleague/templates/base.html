@@ -1,0 +1,37 @@
+{% load static %}
+
+<html lang="en-GB">
+<head {% block ogp_prefix %}prefix="og: http://ogp.me/ns#"{% endblock %}>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  {# TODO: Work out how to do SEO and Facebook OpenGraph #}
+  {#  <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% endif %}"/>#}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# TODO: Theme the web page #}
+  {#  <meta name="theme-color" content="#5B27FF"/>#}
+
+  <title>{% block title %}{% endblock %}</title>
+
+  {# TODO: Add a favicon #}
+  {# TODO: Add fonts to the stylesheet #}
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/eleague.css' %}"/>
+
+  {% block ogp_metadata %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<div class="site-wrapper">
+  <div class="site-content">
+    {% block navigation %}
+      {# TODO: Create a navigation bar #}
+      {# {% navigation calling_page=page %}#}
+    {% endblock %}
+    {% block content %}{% endblock %}
+  </div>
+
+  {# TODO: Create a footer #}
+  {#  {% footer %}#}
+</div>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
