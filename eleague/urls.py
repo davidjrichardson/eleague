@@ -24,5 +24,6 @@ urlpatterns = [
     path('', include('website.urls')),
 ]
 
+# Serve the CSS/JS with the Django web server if we're in debug mode
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
