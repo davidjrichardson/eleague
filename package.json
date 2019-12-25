@@ -1,0 +1,24 @@
+{
+  "name": "eleague",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "author": "David Richardson",
+  "license": "MIT",
+  "devDependencies": {
+    "bulma": "^0.8.0",
+    "css-loader": "^3.4.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "sass": "^1.24.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.1.1",
+    "terser-webpack-plugin": "^2.3.1",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
+  },
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
+  }
+}
