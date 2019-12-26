@@ -1,2 +1,62 @@
 @charset "utf-8";
+
+// Variable customisation goes here
+
+$grays: (
+        "0": #FCFDFF,
+        "5": #F9FBFD,
+        "10": #F7F8FA,
+        "20": #EAECEE,
+        "30": #D5D7DA,
+        "40": #B7B9BD,
+        "50": #929498,
+        "60": #6D6F73,
+        "70": #4E5053,
+        "80": #393A3D,
+        "90": #2D2E30,
+        "100": #29292B
+);
+
+$brand: (
+        "0": #CAF2F2,
+        "10": #AEF7FA,
+        "20": #91F1FF,
+        "30": #75DEFF,
+        "40": #5DBAFF,
+        "50": #4B8BFF,
+        "60": #3D5AFE,
+        "70": #2430DD,
+        "80": #1217B7,
+        "90": #070A8F,
+        "100": #010666,
+);
+$brand-primary: map_get($brand, "60");
+
+// General settings
+$primary: $brand-primary;
+$body-background-color: map_get($grays, "0");
+$background: map_get($grays, "0");
+$text: map_get($grays, "100");
+$text-light: map_get($grays, "70");
+$link: $brand-primary;
+
+// Forms
+$label-color: map_get($grays, "60");
+$label-weight: 700;
+$input-color: $text;
+$input-background-color: map_get($grays, "0");
+$input-border-color: map_get($grays, "30");
+$input-hover-color: $input-color;
+$input-hover-border-color: map_get($grays, "40");
+$input-icon-color: map_get($grays, "30");
+$input-icon-active-color: map_get($grays, "60");
+
+// Font families
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+$family-primary: proxima-nova, $family-sans-serif;
+$title-family: freight-sans-pro, $family-sans-serif;
+
+@import url("https://use.typekit.net/zhf1ezh.css"); // Import the Fontkit web fonts
 @import "~bulma/bulma";
+@import "custom";

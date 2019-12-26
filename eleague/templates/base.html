@@ -7,8 +7,7 @@
   {# TODO: Work out how to do SEO and Facebook OpenGraph #}
   {#  <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% endif %}"/>#}
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {# TODO: Theme the web page #}
-  {#  <meta name="theme-color" content="#5B27FF"/>#}
+  <meta name="theme-color" content="#3D5AFE"/>
 
   <title>{% block title %}{% endblock %}</title>
 
@@ -16,16 +15,17 @@
   {# TODO: Add fonts to the stylesheet #}
 
   <link rel="stylesheet" type="text/css" href="{% static 'css/eleague.css' %}"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
   {% block ogp_metadata %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
 <div class="site-wrapper">
+  <div class="site-colour-band"></div>
   <div class="site-content">
-    {% block navigation %}
-      {# TODO: Create a navigation bar #}
-      {# {% navigation calling_page=page %}#}
-    {% endblock %}
+    {# TODO: Create a navigation bar #}
+    {# {% navigation calling_page=page %}#}
     {% block content %}{% endblock %}
   </div>
 

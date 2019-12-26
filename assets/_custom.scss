@@ -1,0 +1,49 @@
+// Branding
+.site-colour-band {
+  background: $primary;
+  height: 4px;
+  width: 100vw;
+}
+
+.logo-hero {
+  & .hero-body {
+    padding-top: 9rem;
+    padding-bottom: 4rem;
+
+    & .title {
+      color: map_get($grays, "80");
+
+      font-weight: 400;
+      & strong {
+        font-weight: 700;
+      }
+
+      &.is-size-1 {
+        font-size: 3.5rem !important;
+      }
+    }
+  }
+}
+
+// Forms
+span.is-required {
+  color: $red;
+}
+
+a.is-secondary-link {
+  color: map_get($grays, "60");
+  text-decoration: underline;
+  line-height: 40px;
+
+  &:focus,
+  &:hover {
+    color: $text;
+  }
+}
+
+// Generic
+
+hr {
+  background-color: map_get($grays, "30");
+  height: 1px;
+}
