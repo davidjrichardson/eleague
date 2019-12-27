@@ -1,5 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item logo-navbar" href="{% url 'index' %}">E<strong>League</strong></a>
+      </div>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+         data-target="navbar-collapse">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+
+      <div id="navbar-collapse" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item navbar-cta has-button">
+            <div class="field">
+              <div class="control">
+                <a class="button is-primary" href="{% url 'dashboard_index' %}">Submit</a>
+              </div>
+            </div>
+          </div>
+          <a class="navbar-item" href="#">Home</a>
+          <a class="navbar-item" href="#">Archive</a>
+          <a class="navbar-item" href="#">Rules</a>
+          {% if request.user.is_authenticated %}
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a href="#" class="navbar-link">Warwick</a>
+              <div class="navbar-dropdown is-right is-boxed">
+                <a class="navbar-item" href="#">Contact info</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="{% url 'dashboard_logout' %}">Log out</a>
+              </div>
+            </div>
+{#            <a class="navbar-item" href="{% url 'dashboard_logout' %}">Log out</a>#}
+          {% else %}
+            <a class="navbar-item" href="{% url 'dashboard_login' %}">Log in</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
     <h1 class="is-size-1 title">Dashboard</h1>
+  </div>
 {% endblock %}

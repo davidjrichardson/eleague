@@ -5,46 +5,49 @@
 {% block body_class %}template-login{% endblock %}
 
 {% block content %}
-  <section class="logo-hero">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <h1 class="title is-size-1">E<strong>League</strong></h1>
-        <p>Please sign in</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    {% if form.non_field_errors %}
-      <div class="columns">
-        <div class="column is-8 is-offset-2 is-6-desktop is-offset-3-desktop">
-          {% include 'partials/err_notification.html' with error=form.non_field_errors.0 %}
+  <section class="section">
+    <div class="logo-hero">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-size-1">E<strong>League</strong></h1>
+          <p>Please sign in</p>
         </div>
       </div>
-    {% endif %}
-    <div class="columns">
-      <div class="column is-6 is-offset-3">
-        <form method="post" action=".">
-          {% csrf_token %}
-          {% include 'partials/form_field.html' with field=form.username custom_icon='user'%}
-          {% include 'partials/form_field.html' with field=form.password %}
-          {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-          {% else %}
-            <input type="hidden" name="next" value="{% url 'dashboard_index' %}"/>
-          {% endif %}
-          <div class="field is-grouped">
-            <p class="control is-expanded">
-              <a class="is-secondary-link" href="{% url 'dashboard_reset_pass' %}">Forgotten your password?</a>
-            </p>
-            <div class="control">
-              <input class="button is-primary" type="submit" value="Sign in"/>
-            </div>
+    </div>
+
+    <div class="container">
+      {% if form.non_field_errors %}
+        <div class="columns">
+          <div class="column is-8 is-offset-2 is-6-desktop is-offset-3-desktop">
+            {% include 'partials/err_notification.html' with error=form.non_field_errors.0 %}
           </div>
-        </form>
-      <hr/>
-      {# TODO: Work out how to configure the email address here #}
-      <p>Want your university to take part in the ELeague? <a href="mailto:foo@bar.co.uk">Email the organisers</a> to set up an account</p>
+        </div>
+      {% endif %}
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <form method="post" action=".">
+            {% csrf_token %}
+            {% include 'partials/form_field.html' with field=form.username custom_icon='user' %}
+            {% include 'partials/form_field.html' with field=form.password %}
+            {% if request.GET.next %}
+              <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+            {% else %}
+              <input type="hidden" name="next" value="{% url 'dashboard_index' %}"/>
+            {% endif %}
+            <div class="field is-grouped">
+              <p class="control is-expanded">
+                <a class="is-secondary-link" href="{% url 'dashboard_reset_pass' %}">Forgotten your password?</a>
+              </p>
+              <div class="control">
+                <input class="button is-primary" type="submit" value="Sign in"/>
+              </div>
+            </div>
+          </form>
+          <hr/>
+          {# TODO: Work out how to configure the email address here #}
+          <p>Want your university to take part in the ELeague? <a href="mailto:foo@bar.co.uk">Email the organisers</a>
+            to set up an account</p>
+        </div>
       </div>
     </div>
   </section>

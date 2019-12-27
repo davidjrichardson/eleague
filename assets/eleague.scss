@@ -7,6 +7,7 @@ $grays: (
         "5": #F9FBFD,
         "10": #F7F8FA,
         "20": #EAECEE,
+        "25": #DADCDF,
         "30": #D5D7DA,
         "40": #B7B9BD,
         "50": #929498,
@@ -18,27 +19,35 @@ $grays: (
 );
 
 $brand: (
-        "0": #CAF2F2,
-        "10": #AEF7FA,
-        "20": #91F1FF,
-        "30": #75DEFF,
-        "40": #5DBAFF,
-        "50": #4B8BFF,
-        "60": #3D5AFE,
-        "70": #2430DD,
-        "80": #1217B7,
-        "90": #070A8F,
-        "100": #010666,
+        "0": #D5DFFF,
+        "5": #C8D4FF,
+        "10": #B4C5FF,
+        "20": #91A6FF,
+        "30": #7089FF,
+        "40": #536FFF,
+        "50": #3D5AFE,
+        "60": #264FE6,
+        "70": #1648D0,
+        "80": #0C45BE,
+        "90": #0643B0,
+        "100": #0243A6,
+        "110": #042F82,
+        "120": #022B71,
+        "130": #012966
 );
-$brand-primary: map_get($brand, "60");
+$brand-primary: map_get($brand, "50");
 
 // General settings
 $primary: $brand-primary;
 $body-background-color: map_get($grays, "0");
 $background: map_get($grays, "0");
 $text: map_get($grays, "100");
+$text-strong: map_get($grays, "100");
 $text-light: map_get($grays, "70");
 $link: $brand-primary;
+$radius: 4px;
+$radius-large: 8px;
+$radius-small: 2px;
 
 // Forms
 $label-color: map_get($grays, "60");
@@ -50,6 +59,15 @@ $input-hover-color: $input-color;
 $input-hover-border-color: map_get($grays, "40");
 $input-icon-color: map_get($grays, "30");
 $input-icon-active-color: map_get($grays, "60");
+
+// Navbar
+$navbar-background-color: $background;
+$navbar-height: 4.5rem;
+$navbar-item-color: map_get($grays, "60");
+$navbar-item-hover-background-color: transparent;
+$navbar-dropdown-arrow: map_get($grays, "50");
+$navbar-divider-height: 1px;
+$navbar-divider-background-color: map_get($grays, "20");
 
 // Font families
 $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;

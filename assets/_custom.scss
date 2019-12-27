@@ -7,13 +7,14 @@
 
 .logo-hero {
   & .hero-body {
-    padding-top: 9rem;
+    padding-top: 7.5rem;
     padding-bottom: 4rem;
 
     & .title {
       color: map_get($grays, "80");
 
       font-weight: 400;
+
       & strong {
         font-weight: 700;
       }
@@ -22,6 +23,94 @@
         font-size: 3.5rem !important;
       }
     }
+  }
+}
+
+.logo-navbar {
+  font-size: 24px;
+
+  color: $brand-primary;
+
+  &.logo-navbar:hover,
+  &.logo-navbar:focus {
+    color: map_get($brand, "70");
+  }
+
+  font-weight: 500;
+
+  & strong {
+    font-weight: 900;
+  }
+}
+
+// Navbar
+
+.navbar-menu > .navbar-end > .navbar-item {
+  padding: 0.5rem 0;
+  margin: 0 0.75rem;
+
+  font-weight: 600;
+
+  &:not(.has-button):hover,
+  &:not(.has-button):focus {
+    padding-bottom: 0.375rem;
+    border-bottom: 0.125rem solid $brand-primary;
+  }
+
+  &.has-dropdown {
+
+    &:hover,
+    &:focus {
+      padding-bottom: 0.5rem;
+      border-bottom: 0 solid transparent;
+    }
+
+    & > .navbar-link {
+      padding-left: 0;
+
+      &:hover::after,
+      &:focus::after {
+        border-color: $brand-primary;
+      }
+    }
+
+    & .navbar-dropdown {
+      box-shadow: 0 8px 8px map_get($grays, "25");
+      background-color: map_get($grays, "0");
+      border-top: 2px solid map_get($brand, "0");
+
+      & .navbar-item.navbar-item.navbar-item {
+        &:hover,
+        &:focus {
+          background-color: map_get($grays, "20") !important;
+        }
+      }
+    }
+  }
+
+  &.has-button {
+    padding-bottom: 0.5rem;
+    border-bottom: 0 solid transparent;
+
+    & .button.is-primary {
+      background-color: map_get($brand, "0");
+      color: map_get($brand, "100");
+
+      &:hover,
+      &:focus {
+        background-color: map_get($brand, "5");
+        color: map_get($brand, "120");
+      }
+
+      &:focus,
+      &.is-focused {
+        box-shadow: 0 0 0 0.125em map_get($brand, "20");
+      }
+    }
+  }
+
+  &.navbar-cta {
+    margin-right: 2rem;
   }
 }
 
