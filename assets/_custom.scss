@@ -33,7 +33,7 @@
 
   &.logo-navbar:hover,
   &.logo-navbar:focus {
-    color: map_get($brand, "70");
+    color: map_get($brand, "80");
   }
 
   font-weight: 500;
@@ -55,6 +55,18 @@
   &:not(.has-button):focus {
     padding-bottom: 0.375rem;
     border-bottom: 0.125rem solid $brand-primary;
+  }
+
+  &.is-active {
+    color: $brand-primary;
+    padding-bottom: 0.375rem;
+    border-bottom: 0.125rem solid $brand-primary;
+
+    &:not(.has-button):hover,
+    &:not(.has-button):focus {
+      border-bottom: 0.125rem solid map_get($brand, "90");
+      color: map_get($brand, "90");
+    }
   }
 
   &.has-dropdown {
@@ -83,6 +95,18 @@
         &:hover,
         &:focus {
           background-color: map_get($grays, "20") !important;
+          color: map_get($grays, "80");
+        }
+
+        &.is-active {
+          background-color: map_get($grays, "20") !important;
+          color: map_get($grays, "80");
+
+          &:hover,
+          &:focus {
+            background-color: map_get($grays, "30") !important;
+            color: map_get($grays, "100");
+          }
         }
       }
     }
@@ -131,7 +155,6 @@ a.is-secondary-link {
 }
 
 // Generic
-
 hr {
   background-color: map_get($grays, "30");
   height: 1px;
