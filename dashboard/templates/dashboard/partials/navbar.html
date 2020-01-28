@@ -15,19 +15,10 @@
 
     <div id="navbar-collapse" class="navbar-menu">
       <div class="navbar-end">
-        <div class="navbar-item navbar-cta has-button">
-          <div class="field">
-            <div class="control">
-              <a class="button is-primary" href="#">Submit</a>
-            </div>
-          </div>
-        </div>
         <a class="navbar-item {% is_nav_active 'dashboard_index' %}" href="{% url 'dashboard_index' %}">Dashboard</a>
-        <a class="navbar-item" href="#">Archive</a>
-        <a class="navbar-item" href="#">Rules</a>
         {% if request.user.is_authenticated %}
           <div class="navbar-item has-dropdown is-hoverable">
-            <a href="#" class="navbar-link">Warwick</a>
+            <a href="#" class="navbar-link">{{ university }}</a>
             <div class="navbar-dropdown is-right is-boxed">
               <a class="navbar-item {% is_nav_active 'dashboard_contact_info' %}" href="{% url 'dashboard_contact_info' %}">Contact info</a>
               <hr class="navbar-divider">

@@ -1,0 +1,62 @@
+{% extends 'dashboard/index.html' %}
+
+{% load navigation static %}
+
+{% block content %}
+  <div class="container is-section">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="{% url 'dashboard_index' %}">Dashboard</a></li>
+        <li class="{% is_nav_active 'dashboard_contact_info' %}"><a href="{% url 'dashboard_contact_info' %}"
+                                                                    aria-current="page">Contact info</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8">
+          <h2 class="title is-size-3">Contact Info</h2>
+          <div id="info_form">
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="form_university">University</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-expanded">
+                  <div class="control is-expanded">
+                    <input class="input is-static" type="text" id="form_university" value="{{ university }}" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label" for="form_email">Email</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-expanded">
+                  <div class="control is-expanded">
+                    <input class="input is-static" type="text" id="form_university" value="{{ email }}" readonly>
+                  </div>
+                  {# TODO: Add a configurable email here #}
+                  <p class="help">This information is used when contacting you about the ELeague. If something needs changing please <a href="mailto:foo@bar.baz">contact the ELeague admins</a>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4">
+          <h3 class="title is-size-3">My Account</h3>
+          <aside class="menu">
+            <ul class="menu-list">
+              {# TODO: Add a link here #}
+              <li><a href="#">Change Your Password</a></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

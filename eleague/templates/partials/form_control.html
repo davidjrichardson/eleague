@@ -1,0 +1,23 @@
+<div
+    class="control {% if field.field.widget.input_type == 'email' or field.field.widget.input_type == 'password' or custom_icon %}has-icons-left{% endif %} {% if is_expanded %}is-expanded{% endif %}">
+  <input
+      class="input {% if form.non_field_errors or field.errors %}is-danger{% endif %} {% if read_only %}is-static{% endif %}"
+      name="{{ field.name }}" id="{{ field.id_for_label }}"
+      placeholder="
+          {% if field.field.widget.attrs.placeholder %}{{ field.field.widget.attrs.placeholder }}{% else %}{% if custom_label %}{{ custom_label }}{% else %}{{ field.label }}{% endif %}{% endif %}"
+      type="{{ field.field.widget.input_type }}"
+      {% if field.field.required %}required{% endif %}
+      {% if field.value %}value="{{ field.value }}"{% endif %}
+      {% if read_only %}readonly{% endif %}>
+  {% if field.field.widget.input_type == 'email' or field.field.widget.input_type == 'password' or custom_icon %}
+    <span class="icon is-small is-left">
+          {% if field.field.widget.input_type == 'email' %}
+            <i class="fas fa-envelope"></i>
+          {% elif field.field.widget.input_type == 'password' %}
+            <i class="fas fa-lock"></i>
+          {% elif custom_icon %}
+            <i class="fas fa-{{ custom_icon }}"></i>
+          {% endif %}
+        </span>
+  {% endif %}
+</div>
