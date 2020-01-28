@@ -24,8 +24,12 @@
       {% if custom_label %}{{ custom_label }}{% else %}{{ field.label }}{% endif %}{% if field.field.required %}
         <span class="is-required">*</span>{% endif %}</label>
     {% include 'partials/form_control.html' with field=field read_only=read_only custom_icon=custom_icon custom_label=custom_label %}
-    {% if field.help_text %}
-      <p class="help">{{ field.help_text }}</p>
+    {% if field.help_text or custom_help %}
+      {% for help in custom_help %}
+        <p class="help">{{ help }}</p>
+      {% empty %}
+        <p class="help">{{ field.help_text }}</p>
+      {% endfor %}
     {% endif %}
     {% if field.errors %}
       {% for error in field.errors %}

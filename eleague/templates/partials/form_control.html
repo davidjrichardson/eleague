@@ -3,8 +3,7 @@
   <input
       class="input {% if form.non_field_errors or field.errors %}is-danger{% endif %} {% if read_only %}is-static{% endif %}"
       name="{{ field.name }}" id="{{ field.id_for_label }}"
-      placeholder="
-          {% if field.field.widget.attrs.placeholder %}{{ field.field.widget.attrs.placeholder }}{% else %}{% if custom_label %}{{ custom_label }}{% else %}{{ field.label }}{% endif %}{% endif %}"
+      placeholder="{% if field.field.widget.attrs.placeholder %}{{ field.field.widget.attrs.placeholder }}{% else %}{% if custom_label %}{{ custom_label }}{% else %}{{ field.label }}{% endif %}{% endif %}"
       type="{{ field.field.widget.input_type }}"
       {% if field.field.required %}required{% endif %}
       {% if field.value %}value="{{ field.value }}"{% endif %}
