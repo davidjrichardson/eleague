@@ -1,10 +1,14 @@
-function closeMessage(id) {
+function closeNotification(id) {
     document.getElementById(id).remove();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function refreshNotificationButtons() {
     const messages = Array.prototype.slice.call(document.getElementsByClassName('delete'));
     messages.forEach(m => m.addEventListener('click', function () {
-        closeMessage(m.dataset.for);
+        closeNotification(m.dataset.for);
     }));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    refreshNotificationButtons();
 });
