@@ -1,10 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.password_validation import password_validators_help_texts
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
-from django.contrib.auth.forms import PasswordChangeForm
-
 
 from .models import ELeagueUser
 
@@ -50,15 +50,32 @@ class ChangePasswordView(LoginRequiredMixin, View):
     success_url = '/dashboard/profile/'
 
     template_name = 'dashboard/change_password.html'
+    custom_help_labels = ['Your password must contain at least 8 alphanumeric characters.']
 
     def get(self, request):
         context = {
             "form": PasswordChangeForm(request.user),
             "university": ELeagueUser.objects.get(user=request.user).university,
-            "custom_help_labels": ['Your password must contain at least 8 alphanumeric characters.']
+            "custom_help_labels": self.custom_help_labels
         }
 
         return render(request, self.template_name, context=context)
 
     def post(self, request):
-        raise NotImplementedError
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+
+            return redirect('dashboard_change_password')
+        else:
+            messages.error(request, 'Please correct the error(s) below.', extra_tags='danger')
+
+            context = {
+                "form": form,
+                "university": ELeagueUser.objects.get(user=request.user).university,
+                "custom_help_labels": self.custom_help_labels
+            }
+
+            return render(request, self.template_name, context=context)
