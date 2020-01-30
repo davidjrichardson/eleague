@@ -49,7 +49,7 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
     success_url = '/dashboard/profile/'
 
-    template_name = 'dashboard/change_password.html'
+    template_name = 'dashboard/partials/change_password.html'
     custom_help_labels = 'Your password must contain at least 8 alphanumeric characters.'
 
     def get(self, request):

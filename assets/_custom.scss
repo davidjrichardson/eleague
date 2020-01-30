@@ -213,6 +213,10 @@ a.is-secondary-link {
   }
 
   & a {
+    &.is-disabled {
+      color: map_get($grays, "70");
+      background-color: map_get($grays, "20");
+    }
 
     &:hover,
     &:focus {
@@ -237,6 +241,10 @@ a.is-secondary-link {
 hr {
   background-color: map_get($grays, "30");
   height: 1px;
+}
+
+a.is-disabled {
+  pointer-events: none;
 }
 
 section.is-inset {

@@ -2,6 +2,13 @@
 
 {% load navigation static %}
 
+{% block extra_js %}
+  <script type="text/javascript">
+    const formUrl = "{% url 'dashboard_change_password' %}";
+  </script>
+  <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
 {% block content %}
   <div class="container is-section">
     <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -17,31 +24,37 @@
     <div class="container">
       <div class="columns">
         <div class="column is-8">
-          <h2 class="title is-size-3">Contact Info</h2>
-          <div id="info_form">
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label" for="form_university">University</label>
-              </div>
-              <div class="field-body">
-                <div class="field is-expanded">
-                  <div class="control is-expanded">
-                    <input class="input is-static" type="text" id="form_university" value="{{ university }}" readonly>
+          <div id="password-container" class="is-hidden">
+            {# TODO: hide/show HTML for the change password #}
+          </div>
+          <div id="info-container">
+            <h2 class="title is-size-3">Contact Info</h2>
+            <div id="info_form">
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label" for="form_university">University</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-expanded">
+                    <div class="control is-expanded">
+                      <input class="input is-static" type="text" id="form_university" value="{{ university }}" readonly>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <label class="label" for="form_email">Email</label>
-              </div>
-              <div class="field-body">
-                <div class="field is-expanded">
-                  <div class="control is-expanded">
-                    <input class="input is-static" type="text" id="form_university" value="{{ email }}" readonly>
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label" for="form_email">Email</label>
+                </div>
+                <div class="field-body">
+                  <div class="field is-expanded">
+                    <div class="control is-expanded">
+                      <input class="input is-static" type="text" id="form_university" value="{{ email }}" readonly>
+                    </div>
+                    {# TODO: Add a configurable email here #}
+                    <p class="help">This information is used when contacting you about the ELeague. If something needs
+                      changing please <a href="mailto:foo@bar.baz">contact the ELeague admins</a>.</p>
                   </div>
-                  {# TODO: Add a configurable email here #}
-                  <p class="help">This information is used when contacting you about the ELeague. If something needs changing please <a href="mailto:foo@bar.baz">contact the ELeague admins</a>.</p>
                 </div>
               </div>
             </div>
@@ -51,7 +64,8 @@
           <h3 class="title is-size-3">My Account</h3>
           <aside class="menu">
             <ul class="menu-list">
-              <li><a href="{% url 'dashboard_change_password' %}">Change Your Password</a></li>
+              <li><a href="#" id="change-password" class="">Change Your Password</a></li>
+              <li><a href="#" id="contact-info" class="is-hidden">Contact Info</a></li>
             </ul>
           </aside>
         </div>
