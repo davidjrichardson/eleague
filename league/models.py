@@ -33,3 +33,31 @@ class Archer(models.Model):
             models.UniqueConstraint(fields=['university', 'first_name', 'last_name', 'sex', 'created_at'],
                                     name='unique_archer')
         ]
+
+
+class Round(models.Model):
+    SCORING_TYPE = (
+        ('M', 'Metric'),
+        ('I', 'Imperial'),
+    )
+
+    SEASONS = (
+        ('I', 'Indoor'),
+        ('O', 'Outdoor')
+    )
+
+    name = models.CharField(max_length=64)
+    description = models.TextField()
+
+    type = models.CharField(max_length=1, choices=SCORING_TYPE)
+    season = models.CharField(max_length=1, choices=SEASONS)
+    num_arrows = models.IntegerField()
+
+    @property
+    def max_score(self):
+        return (self.num_arrows * 10) if self.type is 'M' else (self.num_arrows * 9)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'type', 'season'], name='unique_round')
+        ]
