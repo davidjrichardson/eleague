@@ -1,5 +1,4 @@
-<div class="notification {% if kind %}is-{{ kind }}{% else %}is-danger{% endif %}" {% if id %}id="error-{{ id }}"{% else %}id="error-{{ error|slice:":10"|slugify }}"{% endif %}>
-  <button class="delete" {% if id %}data-for="error-{{ id }}"{% else %}data-for="error-{{ error|slice:":10"|slugify }}?
-"{% endif %}></button>
+<div class="notification {% if kind %}is-{{ kind }}{% else %}is-danger{% endif %}" {% if id %}id="error-{{ id }}" {% else %}id="error-{{ error|slugify|slice:":10" }}"{% endif %}>
+  <button class="delete" {% if id %}data-for="error-{{ id }}"{% else %}data-for="error-{{ error|slugify|slice:":10" }}"{% endif %}></button>
   {{ error }}
 </div>
