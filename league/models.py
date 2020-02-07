@@ -1,5 +1,3 @@
-import re
-
 from functools import reduce
 
 from django.core.exceptions import ValidationError
@@ -24,6 +22,7 @@ class Archer(models.Model):
     university = models.ForeignKey(ELeagueUser, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
+    middle_names = models.CharField(max_length=128, blank=True, null=True)
 
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -35,8 +34,9 @@ class Archer(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['university', 'first_name', 'last_name', 'sex', 'created_at'],
-                                    name='unique_archer')
+            models.UniqueConstraint(
+                fields=['university', 'first_name', 'middle_names', 'last_name', 'sex', 'created_at'],
+                name='unique_archer')
         ]
 
 
@@ -56,7 +56,7 @@ class Round(models.Model):
 
     type = models.CharField(max_length=1, choices=SCORING_TYPE)
     season = models.CharField(max_length=1, choices=SEASONS)
-    num_arrows = models.IntegerField()
+    num_arrows = models.PositiveIntegerField()
 
     @property
     def max_score(self):
@@ -68,10 +68,9 @@ class Round(models.Model):
         ]
 
 
-class Division:
-    def __init__(self, name, max_teams):
-        self.name = name
-        self.max_teams = max_teams
+class Division(models.Model):
+    name = models.CharField(max_length=64)
+    max_teams = models.PositiveIntegerField()
 
     def __str__(self) -> str:
         return f'{self.name}'
@@ -79,26 +78,53 @@ class Division:
     def __repr__(self) -> str:
         return f'<Division "{self.name}", max_teams: {self.max_teams}>'
 
-    @staticmethod
-    def parse_division(division_string):
-        # Division is made up of a tuple: (name,max_teams) - names may contain alphanumeric chars and whitespace
-        parse_regex = re.compile(r'\((?P<name>[\w ]+),(?P<num>\d+)\)')
-        match = parse_regex.match(division_string)
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=models.Q(max_teams__gt=0), name='There must be at least 1 team per division')
+        ]
 
-        # Catch if it cannot parse the division tuple
-        if not match:
-            raise ValidationError(f'Failed to parse {division_string} as Division object')
 
-        if not match.groupdict().get('name') or not match.groupdict().get('num'):
-            raise ValidationError(f'Failed to parse {division_string} as Division object')
+class League(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.TextField()
+    round = models.ForeignKey(Round, on_delete=models.CASCADE)
 
-        return Division(name=match.groupdict().get('name'), max_teams=match.groupdict().get('num'))
+    start_at = models.DateTimeField()
+    end_at = models.DateTimeField()
+    created_at = models.DateTimeField(default=timezone.now)
+    process_at = models.PositiveIntegerField()
 
-    def serialise(self):
-        return f'({self.name},{self.max_teams})'
+    divisions = models.ManyToManyField(Division, related_name='divisions')
+
+    class Meta:
+        constraints = []
+
+
+class LeagueEntry(models.Model):
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    archer = models.ForeignKey(Archer, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(default=timezone.now)
+    edited_at = models.DateTimeField(null=True, blank=True)
+
+    score = models.PositiveIntegerField()
+    hits = models.PositiveIntegerField()
+    golds = models.PositiveIntegerField()
+    xs = models.IntegerField(blank=True, null=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # Update the edited_at field to reflect when it was updated
+        self.edited_at = timezone.now()
+        super().save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['league', 'archer'], name='unique_archer_entry'),
+        ]
 
 
 class DivisionsField(models.TextField):
+    """Deprecated but required for migrations"""
     description = 'A league divison'
 
     def __init__(self, *args, **kwargs):
@@ -135,44 +161,3 @@ class DivisionsField(models.TextField):
         return '[' + ';'.join(map(lambda d: d.serialise(), value)) + ']'
 
     # TODO: Override the form field
-
-
-class League(models.Model):
-    name = models.CharField(max_length=128)
-    description = models.TextField()
-    round = models.ForeignKey(Round, on_delete=models.CASCADE)
-
-    start_at = models.DateTimeField()
-    end_at = models.DateTimeField()
-    created_at = models.DateTimeField(default=timezone.now)
-
-    divisions = DivisionsField()
-
-    class Meta:
-        constraints = []
-
-
-class LeagueEntry(models.Model):
-    league = models.ForeignKey(League, on_delete=models.CASCADE)
-    archer = models.ForeignKey(Archer, on_delete=models.CASCADE)
-
-    created_at = models.DateTimeField(default=timezone.now)
-    edited_at = models.DateTimeField(null=True, blank=True)
-
-    score = models.IntegerField()
-    hits = models.IntegerField()
-    golds = models.IntegerField()
-    xs = models.IntegerField(blank=True, null=True)
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        # Update the edited_at field to reflect when it was updated
-        self.edited_at = timezone.now()
-        super().save(force_insert, force_update, using, update_fields)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['league', 'archer'], name='unique_archer_entry'),
-            models.CheckConstraint(check=models.Q(score__gte=0), name='score_positive'),
-            models.CheckConstraint(check=models.Q(hits__gte=0), name='hits_positive'),
-            models.CheckConstraint(check=models.Q(golds__gte=0), name='golds_positive'),
-        ]
