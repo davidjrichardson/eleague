@@ -1,6 +1,8 @@
 from functools import reduce
 
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
@@ -68,9 +70,16 @@ class Round(models.Model):
         ]
 
 
+def non_zero_validator(value):
+    if value == 0:
+        raise ValidationError('Ensure this value is non-zero.'.format(value=value))
+
+
 class Division(models.Model):
-    name = models.CharField(max_length=64)
-    max_teams = models.PositiveIntegerField()
+    name = models.CharField(max_length=64, help_text='The name of this division e.g.: "Division 1"')
+    max_teams = models.IntegerField(default=-1,
+                                    validators=[non_zero_validator, MinValueValidator(limit_value=-1)],
+                                    help_text='The maximum number of teams from one university allowed into this division. Use -1 for unlimited teams.')
 
     def __str__(self) -> str:
         return f'{self.name}'
@@ -80,7 +89,7 @@ class Division(models.Model):
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=models.Q(max_teams__gt=0), name='There must be at least 1 team per division')
+            models.CheckConstraint(check=~models.Q(max_teams=0), name='There must be at least 1 team per division')
         ]
 
 
@@ -92,12 +101,17 @@ class League(models.Model):
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
     created_at = models.DateTimeField(default=timezone.now)
-    process_at = models.PositiveIntegerField()
+    process_at = models.TimeField(default=timezone.now)
+
+    splits = ArrayField(models.DateField(blank=True), default=list, help_text='The submission dates for each split')
 
     divisions = models.ManyToManyField(Division, related_name='divisions')
 
     class Meta:
         constraints = []
+
+
+# TODO: League splits need to be done
 
 
 class LeagueEntry(models.Model):

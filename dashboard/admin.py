@@ -11,7 +11,16 @@ class ELeagueUserInline(admin.StackedInline):
 
 
 class UserAdmin(BaseUserAdmin):
+    list_display = ('username', 'email', 'university', 'is_staff')
+    search_fields = ('username', 'email', 'eleagueuser__university',)
+
     inlines = (ELeagueUserInline,)
+
+    def university(self, obj: User) -> str:
+        return ELeagueUser.objects.get(user=obj).university
+
+    university.admin_order_field = 'eleagueuser__university'
+    ordering = ('eleagueuser__university',)
 
 
 admin.site.unregister(User)
