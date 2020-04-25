@@ -1,16 +1,23 @@
 from django.contrib import admin
 
-from .models import League, Division
+from .models import League, Division, LeagueSplit, Round
 
 
 class LeagueAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'round', 'start_at', 'end_at')
+    search_fields = ('name', 'description')
+    list_filter = ('round__type', 'round__season')
+    ordering = ('end_at',)
+
+
+class LeagueSplitAdmin(admin.ModelAdmin):
+    list_display = ('name', 'split_ends')
+    search_fields = ('name',)
 
 
 class DivisionAdmin(admin.ModelAdmin):
     list_display = ('name', 'team_count')
     search_fields = ('name',)
-    ordering = ('name',)
 
     def team_count(self, value: Division) -> str:
         if value.max_teams == -1:
@@ -21,5 +28,13 @@ class DivisionAdmin(admin.ModelAdmin):
     team_count.admin_order_field = 'max_teams'
 
 
+class RoundAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type', 'season')
+    search_fields = ('name', 'description')
+    list_filter = ('type', 'season', 'num_arrows')
+
+
 admin.site.register(League, LeagueAdmin)
 admin.site.register(Division, DivisionAdmin)
+admin.site.register(LeagueSplit, LeagueSplitAdmin)
+admin.site.register(Round, RoundAdmin)

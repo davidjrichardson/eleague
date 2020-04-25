@@ -1,6 +1,5 @@
 from functools import reduce
 
-from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -60,6 +59,12 @@ class Round(models.Model):
     season = models.CharField(max_length=1, choices=SEASONS)
     num_arrows = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return f'<Round "{self.name}" type: {self.type}, season: {self.season}>'
+
     @property
     def max_score(self):
         return (self.num_arrows * 10) if self.type == 'M' else (self.num_arrows * 9)
@@ -76,7 +81,7 @@ def non_zero_validator(value):
 
 
 class Division(models.Model):
-    name = models.CharField(max_length=64, help_text='The name of this division e.g.: "Division 1"')
+    name = models.CharField(max_length=64, help_text='The name of this division e.g.: "Division 1".')
     max_teams = models.IntegerField(default=-1,
                                     validators=[non_zero_validator, MinValueValidator(limit_value=-1)],
                                     help_text='The maximum number of teams from one university allowed into this division. Use -1 for unlimited teams.')
@@ -91,6 +96,21 @@ class Division(models.Model):
         constraints = [
             models.CheckConstraint(check=~models.Q(max_teams=0), name='There must be at least 1 team per division')
         ]
+        ordering = ('name',)
+
+
+class LeagueSplit(models.Model):
+    name = models.CharField(max_length=200, help_text='Then name of this split e.g.: "December/January".')
+    split_ends = models.DateField(help_text='The last day that will be valid for scores in this split. This date is inclusive.')
+
+    def __str__(self) -> str:
+        return f'{self.name} ends {self.split_ends}'
+
+    def __repr__(self) -> str:
+        return f'<LeagueSplit "{self.name}", split ends: {self.split_ends}>'
+
+    class Meta:
+        ordering = ('split_ends', 'name')
 
 
 class League(models.Model):
@@ -103,15 +123,14 @@ class League(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     process_at = models.TimeField(default=timezone.now)
 
-    splits = ArrayField(models.DateField(blank=True), default=list, help_text='The submission dates for each split')
-
+    splits = models.ManyToManyField(LeagueSplit, related_name='splits')
     divisions = models.ManyToManyField(Division, related_name='divisions')
+
+    def __str__(self):
+        return f'{self.name} - {self.round}'
 
     class Meta:
         constraints = []
-
-
-# TODO: League splits need to be done
 
 
 class LeagueEntry(models.Model):
