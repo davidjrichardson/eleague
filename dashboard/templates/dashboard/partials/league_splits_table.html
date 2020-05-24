@@ -1,0 +1,14 @@
+<div class="league">
+  <div class="league-title">
+    <h2 class="is-size-2 title">{{ league.name }}</h2>
+    <h5 class="is-size-5 subtitle">In progress, ends {{ league.end_at|date:"P jS N Y" }}</h5>
+  </div>
+  <hr class="league-divider"/>
+  <div class="league-table">
+    {% for split in league.splits.all %}
+      <div class="split">
+        {{ split.name }}
+      </div>
+    {% endfor %}
+  </div>
+</div>

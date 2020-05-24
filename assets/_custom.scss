@@ -265,8 +265,51 @@ section.is-inset {
   }
 }
 
+.recessed {
+  background-color: map_get($grays, "20");
+}
+
+.dash-header {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @include from($tablet) {
+    padding-top: 2rem;
+  }
+}
+
+.league {
+  background-color: white;
+
+  border-radius: $radius-large;
+
+  padding: 1rem;
+
+  & .league-title {
+    & .title {
+      color: map_get($grays, "90");
+    }
+
+    & .subtitle {
+      color: map_get($grays, "70");
+      font-weight: 500;
+    }
+  }
+
+  & .league-divider {
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+
+    background-color: map_get($grays, "20");
+    height: 4px;
+    border-radius: 1px;
+    max-width: 100px;
+  }
+}
+
 @include until($desktop) {
   .is-section {
-    padding: 0 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }

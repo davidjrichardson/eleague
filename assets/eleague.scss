@@ -41,6 +41,7 @@ $brand-primary: map_get($brand, "50");
 $primary: $brand-primary;
 $body-background-color: map_get($grays, "0");
 $background: map_get($grays, "0");
+$widescreen-enabled: false;
 $text: map_get($grays, "100");
 $text-strong: map_get($grays, "100");
 $text-light: map_get($grays, "70");
@@ -78,6 +79,7 @@ $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Ox
 
 $family-primary: proxima-nova, $family-sans-serif;
 $title-family: freight-sans-pro, $family-sans-serif;
+$subtitle-family: freight-sans-pro, $family-sans-serif;
 
 @import url("https://use.typekit.net/zhf1ezh.css"); // Import the Fontkit web fonts
 @import "~bulma/bulma";

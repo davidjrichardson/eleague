@@ -101,6 +101,7 @@ class Division(models.Model):
 
 class LeagueSplit(models.Model):
     name = models.CharField(max_length=200, help_text='Then name of this split e.g.: "December/January".')
+    split_starts = models.DateField(help_text='The first day for valid scores in this split. This date is inclusive.')
     split_ends = models.DateField(help_text='The last day that will be valid for scores in this split. This date is inclusive.')
 
     def __str__(self) -> str:

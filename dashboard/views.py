@@ -3,10 +3,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
 
 from .models import ELeagueUser
+from league.models import League, LeagueSplit, LeagueEntry
 
 
 class DashboardIndexView(LoginRequiredMixin, TemplateView):
@@ -19,8 +21,12 @@ class DashboardIndexView(LoginRequiredMixin, TemplateView):
         # TODO: Generate context data
         context = super().get_context_data(**kwargs)
 
+        # TODO: Change this to all
+        leagues = League.objects.filter(start_at__lte=timezone.now(), end_at__gt=timezone.now()).order_by('start_at')[:1]
+
         context.update({
-            "university": ELeagueUser.objects.get(user=self.request.user).university
+            "university": ELeagueUser.objects.get(user=self.request.user).university,
+            "leagues": leagues
         })
         return context
 

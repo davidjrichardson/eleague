@@ -4,8 +4,19 @@
   {% include 'dashboard/partials/navbar.html' %}
 {% endblock %}
 
+{% block title %}Eleague Dashboard{% endblock %}
+
 {% block content %}
-  <div class="container">
+  <div class="dash-header container is-section">
     <h1 class="is-size-1 title">Dashboard</h1>
+  </div>
+  <div class="section recessed">
+    <div class="container">
+      {% for league in leagues %}
+        {% include 'dashboard/partials/league_splits_table.html' with league=league %}
+      {% empty %}
+        {# TODO: Add an empty state #}
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}
