@@ -1,3 +1,4 @@
+from datetime import timedelta
 from functools import reduce
 
 from django.core.exceptions import ValidationError
@@ -102,7 +103,8 @@ class Division(models.Model):
 class LeagueSplit(models.Model):
     name = models.CharField(max_length=200, help_text='Then name of this split e.g.: "December/January".')
     split_starts = models.DateField(help_text='The first day for valid scores in this split. This date is inclusive.')
-    split_ends = models.DateField(help_text='The last day that will be valid for scores in this split. This date is inclusive.')
+    split_ends = models.DateField(
+        help_text='The last day that will be valid for scores in this split. This date is inclusive.')
 
     def __str__(self) -> str:
         return f'{self.name} ends {self.split_ends}'
@@ -122,16 +124,42 @@ class League(models.Model):
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
     created_at = models.DateTimeField(default=timezone.now)
-    process_at = models.TimeField(default=timezone.now)
+    process_at = models.DurationField(default=timedelta(days=5),
+                                      help_text='The amount of time after a split closes before the scores are processed and the league table(s) are generated for the split.')
 
     splits = models.ManyToManyField(LeagueSplit, related_name='splits')
     divisions = models.ManyToManyField(Division, related_name='divisions')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.name} - {self.round}'
 
     class Meta:
         constraints = []
+
+
+class LeagueEntryQuerySet(models.QuerySet):
+    def for_league(self, league: League):
+        return self.filter(league=league)
+
+    def for_split(self, split: LeagueSplit):
+        return self.filter(shot_at__gte=split.split_starts, shot_at__lt=split.split_ends)
+
+    def for_club(self, university: ELeagueUser):
+        return self.filter(archer__university=university)
+
+
+class LeagueEntryManager(models.Manager):
+    def get_queryset(self):
+        return LeagueEntryQuerySet(self.model, using=self._db)
+
+    def for_split(self, split: LeagueSplit) -> LeagueEntryQuerySet:
+        return self.get_queryset().for_split(split)
+
+    def for_club(self, university: ELeagueUser) -> LeagueEntryQuerySet:
+        return self.get_queryset().for_club(university)
+
+    def for_league(self, league: League) -> LeagueEntryQuerySet:
+        return self.get_queryset().for_league(league)
 
 
 class LeagueEntry(models.Model):
@@ -140,11 +168,14 @@ class LeagueEntry(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     edited_at = models.DateTimeField(null=True, blank=True)
+    shot_at = models.DateTimeField()
 
     score = models.PositiveIntegerField()
     hits = models.PositiveIntegerField()
     golds = models.PositiveIntegerField()
     xs = models.IntegerField(blank=True, null=True)
+
+    objects = LeagueEntryManager()
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # Update the edited_at field to reflect when it was updated

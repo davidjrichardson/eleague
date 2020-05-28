@@ -50,6 +50,13 @@ $radius: 4px;
 $radius-large: 8px;
 $radius-small: 2px;
 
+// Tooltips
+$tooltip-radius: $radius-large;
+$tooltip-background-color: map_get($grays, "100");
+$tooltip-color: map_get($grays, "0");
+$tooltip-font-size: 14px;
+$tooltip-padding: .6rem;
+
 // Forms
 $label-color: map_get($grays, "60");
 $label-weight: 700;
@@ -83,4 +90,5 @@ $subtitle-family: freight-sans-pro, $family-sans-serif;
 
 @import url("https://use.typekit.net/zhf1ezh.css"); // Import the Fontkit web fonts
 @import "~bulma/bulma";
+@import '@creativebulma/bulma-tooltip';
 @import "custom";
