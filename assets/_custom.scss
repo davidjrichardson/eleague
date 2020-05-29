@@ -297,7 +297,7 @@ section.is-inset {
   }
 
   & .league-divider {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     margin-top: 1rem;
 
     background-color: map_get($grays, "20");
@@ -314,94 +314,102 @@ section.is-inset {
   }
 }
 
-.league-table {
+.tabular-figures {
+  font-variant-numeric: tabular-nums;
+}
+
+.league-table-container {
   width: 100%;
+  display: grid;
 
-  & td {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+  column-gap: 1.25rem;
+  grid-auto-rows: auto;
+  grid-template-rows: auto;
+  grid-template-columns: [split] 1fr [status] auto [entries] auto [actions] auto;
 
-    vertical-align: middle;
-
-    border-color: map_get($grays, "20");
-
-    & .button .fas {
-      margin-left: 0;
-    }
-
-    & .button.is-primary .fas {
-      color: map_get($brand, "0");
-    }
+  & .button .fas {
+    margin-left: 0;
   }
 
-  & th {
-    border: 0 transparent;
+  & .button.is-primary .fas {
+    color: map_get($brand, "0");
+  }
 
+  & div {
+    display: grid;
+    align-items: center;
+  }
+
+  & .header-cell {
     font-family: $title-family;
     color: map_get($grays, "80");
     vertical-align: bottom;
-
-    padding-top: 0;
-    padding-bottom: .5rem;
+    font-weight: bold;
   }
 
-  & tr {
-    & td.split-name {
-      opacity: 70%;
-    }
+  & .actions {
+    justify-items: right;
+  }
 
-    // TODO
-    &.closed {
-      //background-color: map_get($grays, "10");
-    }
+  & .status-tag {
+    justify-items: left;
 
-    &.open {
-      & td.split-name {
-        opacity: 100%;
+    & .tag {
+      &.closed {
+        background-color: #feecf0;
+        color: #cc0f35;
       }
-    }
 
-    &.not-open-yet {
-    }
+      &.open {
+        background-color: rgba(map_get($brand, "0"), 0.7);
+        color: map_get($brand, "70");
+      }
 
-    &.published {
-    }
-  }
+      &.opens-in {
+        background-color: #fffbeb;
+        color: #947600;
+      }
 
-  & .tag {
-    &.closed {
-      background-color: #feecf0;
-      color: #cc0f35;
-    }
-
-    &.open {
-      background-color: rgba(map_get($brand, "0"), 0.7);
-      color: map_get($brand, "70");
-    }
-
-    &.not-open-yet {
-      background-color: #fffbeb;
-      color: #947600;
-    }
-
-    &.published {
-      background-color: #effaf3;
-      color: #257942;
+      &.published {
+        background-color: #effaf3;
+        color: #257942;
+      }
     }
   }
 
   & .split-name {
+    grid-column: split;
     line-height: 1.5;
+
+    padding: .5rem 0;
+
+    &.is-closed {
+      opacity: 70%;
+    }
 
     & strong {
       display: block;
       font-family: $title-family;
       font-size: 1.5rem;
-      color: map_get($grays, "80");
+      color: map_get($grays, "70");
     }
 
     & span {
       font-size: 0.875rem;
+      color: map_get($grays, "60");
+    }
+  }
+
+  & a.split-name {
+    &:hover,
+    &:focus {
+      & strong {
+        color: map_get($grays, "90");
+      }
+
+      & span {
+        color: map_get($grays, "70");
+      }
     }
   }
 }

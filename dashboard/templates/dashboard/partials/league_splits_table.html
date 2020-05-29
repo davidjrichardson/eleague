@@ -6,49 +6,57 @@
     <h5 class="is-size-5 subtitle">In progress, ends {{ league.end_at|date:"P jS N Y" }}</h5>
   </div>
   <hr class="league-divider"/>
-  <div class="table-container">
-    <table class="table league-table">
-      <thead>
-      <tr>
-        <th>Split</th>
-        <th>Accepting Scores?</th>
-        <th class="has-text-right">Number of Scores</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for split in league.splits.all %}
-        {% entries_for_split league split as entries %}
-        <tr class="{{ split|status:league|slugify }}">
-          <td class="split-name">
-            <strong>{{ split.name }}</strong>
-            <span>{{ split.split_starts|date:"jS N Y" }} until {{ split.split_ends|date:"jS N Y" }}</span>
-          </td>
-          <td>
-            <span class="tag is-medium {{ split|status:league|slugify }}">{{ split|status:league }}</span>
-          </td>
-          <td class="has-text-right">{{ entries|length }}</td>
-          <td>
-            {% if entries|length == 0 %}
-              <a href="#"
-                 class="button has-tooltip-arrow {% if split|status:league == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
-                 {% if split|status:league != "Open" %}disabled{% endif %} data-tooltip="Submit scores">
-              <span class="icon is-small">
-                <i class="fas fa-file-upload"></i>
-              </span>
-              </a>
-            {% else %}
-              <a href="#"
-                 class="button has-tooltip-arrow {% if split|status:league == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
-                 {% if split|status:league != "Open" %}disabled{% endif %} data-tooltip="Update scores">
-              <span class="icon is-small">
-                <i class="fas fa-edit"></i>
-              </span>
-              </a>
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
+  <div class="league-table-container">
+    <div class="header-cell">Split</div>
+    <div class="header-cell">Accepting Scores?</div>
+    <div class="header-cell has-text-right">Num. Scores Entered</div>
+    <div class="header-cell has-text-right">Actions</div>
+    {% for split in league.splits.all %}
+      {% with split_status=split|status:league %}
+        {% if split_status == "Published" or split_status == "Open" %}
+          <a href="#" class="split-name">
+        {% else %}
+          <div href="#" class="split-name is-closed">
+        {% endif %}
+          <strong>{{ split.name }}</strong>
+          <span>{{ split.split_starts|date:"jS N Y" }} until {{ split.split_ends|date:"jS N Y" }}</span>
+        {% if split_status == "Published" or split_status == "Open" %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+        <div class="status-tag">
+          <span class="tag is-medium {{ split_status|truncatewords:2|slugify }}">{{ split_status }}</span>
+        </div>
+        <div class="tabular-figures has-text-right">{{ entries|length }}</div>
+        <div class="actions">
+          {% if split_status == "Published" %}
+            <a href="#" class="button has-tooltip-arrow is-primary" data-tooltip="View published results">
+                <span class="icon is-small">
+                  <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
+          {% elif entries|length == 0 %}
+            <a href="#"
+               class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
+               {% if split_status != "Open" %}disabled{% endif %} data-tooltip="Submit scores">
+                <span class="icon is-small">
+                  <i class="fas fa-file-upload"></i>
+                </span>
+            </a>
+          {% else %}
+            <a href="#"
+               class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
+               {% if split_status != "Open" %}disabled{% endif %} data-tooltip="Update scores">
+                <span class="icon is-small">
+                  <i class="fas fa-edit"></i>
+                </span>
+            </a>
+          {% endif %}
+        </div>
+      {% endwith %}
+    {% empty %}
+
+    {% endfor %}
   </div>
 </div>

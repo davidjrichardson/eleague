@@ -1,7 +1,8 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 from django import template
 from django.utils import timezone
+from django.template.defaultfilters import timeuntil
 
 from league.models import LeagueSplit, LeagueEntry, ELeagueUser, League
 
@@ -16,11 +17,13 @@ def entries_for_split(context, league: League, split: LeagueSplit):
 
 @register.filter()
 def status(split: LeagueSplit, league: League) -> str:
-    if timezone.make_aware(datetime.combine(split.split_starts, time(0))) > timezone.now():
-        return "Not open yet"
-    elif timezone.make_aware(datetime.combine(split.split_starts, time(0))) <= timezone.now() < timezone.make_aware(
-            datetime.combine(split.split_ends, time(0))):
+    start_date = timezone.make_aware(datetime.combine(split.split_starts, time(0)))
+    end_date = timezone.make_aware(datetime.combine(split.split_ends, time(0)))
+    if timezone.now() < start_date and (start_date - timezone.now()) < timedelta(days=7):
+        return f'Opens in {timeuntil(start_date, timezone.now())}'
+    elif start_date <= timezone.now() < end_date:
         return "Open"
-    # TODO: Have a way to show results are published
+    elif (timezone.now() - end_date) > league.process_at:
+        return "Published"
     else:
         return "Closed"
