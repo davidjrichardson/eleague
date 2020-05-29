@@ -15,7 +15,17 @@
       {% for league in leagues %}
         {% include 'dashboard/partials/league_splits_table.html' with league=league %}
       {% empty %}
-        {# TODO: Add an empty state #}
+        <div class="error-container">
+          <div class="content">
+            {# TODO: Work out how to configure the email address here #}
+            <h2 class="title is-size-2">There are no leagues running right now</h2>
+            <p>Check back again soon or <a href="mailto:foo@bar.baz">email the organisers</a> for an update about what's
+              coming next.</p>
+          </div>
+          <div class="graphic">
+            {% include 'dashboard/svgs/no_data.svg' %}
+          </div>
+        </div>
       {% endfor %}
     </div>
   </div>
