@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'website',
     'league',
     'dashboard',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -91,6 +92,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Vue.js component config
+VUE_FRONTEND_DIR = os.path.join(BASE_DIR, 'vue_frontend')
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'vue/',
+        'STATS_FILE': os.path.join(VUE_FRONTEND_DIR, 'webpack-stats.json'),
+        'POLL_INTERNAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
