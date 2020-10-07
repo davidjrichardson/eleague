@@ -81,6 +81,9 @@ $navbar-divider-background-color: map_get($grays, "20");
 $breadcrumb-item-padding-vertical: 1rem;
 $breadcrumb-item-separator-color: map_get($grays, "40");
 
+// Tables
+$table-row-hover-background-color: rgba(map_get($brand, "0"), 0.3);
+
 // Font families
 $family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 

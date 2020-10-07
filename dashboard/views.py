@@ -1,14 +1,40 @@
+import sys
+
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, Page
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
 
+from league.models import League, Archer
 from .models import ELeagueUser
-from league.models import League, LeagueSplit, LeagueEntry
+
+
+def get_archers(request, university: ELeagueUser) -> (Page, int):
+    archers = Archer.objects.filter(university=university).order_by('last_name', 'first_name', 'middle_names').all()
+
+    page_number = request.GET.get('page', 1)
+    per_page = request.GET.get('per_page', 10)
+
+    if per_page == 'all':
+        paginator = Paginator(archers, per_page=sys.maxsize)
+    else:
+        paginator = Paginator(archers, per_page=per_page)
+    return paginator.get_page(page_number), len(archers)
+
+
+class DashboardArchersPaginatorView(LoginRequiredMixin, View):
+    template_name = 'dashboard/partials/archers_list.html'
+
+    def get(self, request):
+        # TODO: Paginate the archers list
+        context = {}
+
+        return render(request, self.template_name, context=context)
 
 
 class DashboardIndexView(LoginRequiredMixin, TemplateView):
@@ -21,12 +47,16 @@ class DashboardIndexView(LoginRequiredMixin, TemplateView):
         # TODO: Generate context data
         context = super().get_context_data(**kwargs)
 
-        # TODO: Change this to all
-        leagues = League.objects.filter(start_at__lte=timezone.now(), end_at__gt=timezone.now()).order_by('start_at')[:1]
+        university = ELeagueUser.objects.get(user=self.request.user)
+        leagues = League.objects.filter(start_at__lte=timezone.now(), end_at__gt=timezone.now()).order_by(
+            'start_at').all()
+        archers, num_archers = get_archers(self.request, university)
 
         context.update({
-            "university": ELeagueUser.objects.get(user=self.request.user).university,
-            "leagues": leagues
+            "university": university.university,
+            "leagues": leagues,
+            "archers": archers,
+            "num_archers": num_archers
         })
         return context
 
@@ -42,7 +72,6 @@ class UserProfileView(LoginRequiredMixin, View):
     def get(self, request):
         context = {
             "email": request.user.email,
-            # "form": ELeagueUserForm(instance=request.user),
             "university": ELeagueUser.objects.get(user=request.user).university
         }
 

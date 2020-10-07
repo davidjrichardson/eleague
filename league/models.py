@@ -31,6 +31,9 @@ class Archer(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     experience = models.CharField(max_length=1, choices=EXPERIENCE)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} - {self.university}'
+
     def __repr__(self):
         return f'<{self.first_name} {self.last_name}@{self.university} ({self.sex}/{self.experience}) created at {self.created_at}>'
 

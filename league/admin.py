@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import League, Division, LeagueSplit, Round
+from .models import League, Division, LeagueSplit, Round, Archer
 
 
 class LeagueAdmin(admin.ModelAdmin):
@@ -34,6 +34,13 @@ class RoundAdmin(admin.ModelAdmin):
     list_filter = ('type', 'season', 'num_arrows')
 
 
+class ArcherAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'middle_names', 'university', 'sex', 'experience')
+    search_fields = ('first_name', 'last_name', 'middle_names')
+    list_filter = ('sex', 'experience')
+
+
+admin.site.register(Archer, ArcherAdmin)
 admin.site.register(League, LeagueAdmin)
 admin.site.register(Division, DivisionAdmin)
 admin.site.register(LeagueSplit, LeagueSplitAdmin)

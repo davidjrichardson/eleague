@@ -8,66 +8,67 @@
   <hr class="league-divider"/>
   {% if league.splits.all %}
     <div class="league-table-container">
-    <div class="header-cell">Split</div>
-    <div class="header-cell">Accepting Scores?</div>
-    <div class="header-cell has-text-right">Num. Scores Entered</div>
-    <div class="header-cell has-text-right">Actions</div>
-  {% endif %}
-  {% for split in league.splits.all %}
-    {% with split_status=split|status:league %}
-      {% if split_status == "Published" or split_status == "Open" %}
-        <a href="#" class="split-name">
-      {% else %}
-        <div href="#" class="split-name is-closed">
-      {% endif %}
-    <strong>{{ split.name }}</strong>
-    <span>{{ split.split_starts|date:"jS N Y" }} until {{ split.split_ends|date:"jS N Y" }}</span>
-    {% if split_status == "Published" or split_status == "Open" %}
-      </a>
-    {% else %}
-      </div>
+      <div class="header-cell">Split</div>
+      <div class="header-cell">Accepting Scores?</div>
+      <div class="header-cell has-text-right">Num. Scores Entered</div>
+      <div class="header-cell has-text-right">Actions</div>
     {% endif %}
-      <div class="status-tag">
-        <span class="tag is-medium {{ split_status|truncatewords:2|slugify }}">{{ split_status }}</span>
-      </div>
-      <div class="tabular-figures has-text-right">{{ entries|length }}</div>
-      <div class="actions">
-        {% if split_status == "Published" %}
-          <a href="#" class="button has-tooltip-arrow is-primary" data-tooltip="View published results">
-                <span class="icon is-small">
-                  <i class="fas fa-arrow-right"></i>
-                </span>
-          </a>
-        {% elif entries|length == 0 %}
-          <a href="#"
-             class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
-             {% if split_status != "Open" %}disabled{% endif %} data-tooltip="Submit scores">
-                <span class="icon is-small">
-                  <i class="fas fa-file-upload"></i>
-                </span>
+    {% for split in league.splits.all %}
+      {% with split_status=split|status:league %}
+        {% if split_status == "Published" or split_status == "Open" %}
+          <a href="#" class="split-name">
+        {% else %}
+          <div class="split-name is-closed">
+        {% endif %}
+          <strong>{{ split.name }}</strong>
+          <span>{{ split.split_starts|date:"jS N Y" }} until {{ split.split_ends|date:"jS N Y" }}</span>
+        {% if split_status == "Published" or split_status == "Open" %}
           </a>
         {% else %}
-          <a href="#"
-             class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
-             {% if split_status != "Open" %}disabled{% endif %} data-tooltip="Update scores">
-                <span class="icon is-small">
-                  <i class="fas fa-edit"></i>
-                </span>
-          </a>
+          </div>
         {% endif %}
+        <div class="status-tag">
+          <span class="tag is-medium {{ split_status|truncatewords:2|slugify }}">{{ split_status }}</span>
+        </div>
+        <div class="tabular-figures has-text-right">{{ entries|length }}</div>
+        <div class="actions">
+          {% if split_status == "Published" %}
+            <a href="#" class="button has-tooltip-arrow is-primary is-outlined" data-tooltip="View published results">
+                  <span class="icon is-small">
+                    <i class="fas fa-arrow-right"></i>
+                  </span>
+            </a>
+          {% elif entries|length == 0 %}
+            <a href="#"
+               class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
+               data-tooltip="Submit scores">
+                  <span class="icon is-small">
+                    <i class="fas fa-file-upload"></i>
+                  </span>
+            </a>
+          {% else %}
+            <a href="#"
+               class="button has-tooltip-arrow {% if split_status == "Open" %}is-primary{% else %}is-light is-disabled{% endif %}"
+               data-tooltip="Update scores">
+                  <span class="icon is-small">
+                    <i class="fas fa-edit"></i>
+                  </span>
+            </a>
+          {% endif %}
+        </div>
+      {% endwith %}
+    {% empty %}
+      <div class="error-container">
+        <div class="content">
+          <h3 class="title is-size-3">There are no splits for this league</h3>
+          {# TODO: Work out how to configure the email address here #}
+          <p>Please <a href="mailto:foo@bar.baz">contact an organiser</a> about this error- someone has forgotten to do
+            their job.</p>
+        </div>
+        <div class="graphic">
+          {% include 'dashboard/svgs/empty.svg' %}
+        </div>
       </div>
-    {% endwith %}
-  {% empty %}
-    <div class="error-container">
-      <div class="content">
-        <h3 class="title is-size-3">There are no splits for this league</h3>
-        {# TODO: Work out how to configure the email address here #}
-        <p>Please <a href="mailto:foo@bar.baz">contact an organiser</a> about this error- someone has forgotten to do
-          their job.</p>
-      </div>
-      <div class="graphic">
-        {% include 'dashboard/svgs/empty.svg' %}
-      </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 </div>

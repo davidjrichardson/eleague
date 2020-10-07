@@ -29,4 +29,55 @@
       {% endfor %}
     </div>
   </div>
+  <div class="section">
+    <div class="container">
+      <h1 class="is-size-1 title dash-header">Archers</h1>
+      {% if archers|length_is:0 %}
+        <div class="error-container">
+          <div class="content">
+            <h2 class="title is-size-2">No archers registered</h2>
+            {#            TODO: Add archer registration page link#}
+            <p>Start registering archers for this academic year <a href="#">here</a>.</p>
+          </div>
+          <div class="graphic">
+            {% include 'dashboard/svgs/empty.svg' %}
+          </div>
+        </div>
+      {% else %}
+        <div class="columns">
+          <div class="column is-three-quarters">
+            <div class="archer-search-container" id="archerSearchContainer">
+              <div class="field">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input" type="text" placeholder="Search archer names" id="archerSearch">
+                  <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+                </div>
+              </div>
+              <a href="#" class="clear-text-button hiding hidden" id="clearText" data-for="archerSearch">
+              <span class="icon">
+                <i class="fas fa-times-circle"></i>
+              </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div id="archersContainer">
+          {% include 'dashboard/partials/archers_list.html' with archers=archers num_archers=num_archers %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+  let field = document.getElementById("archerSearch");
+  let clear = document.getElementById("clearText");
+
+  field.addEventListener("keydown", function () {
+
+  });
+  </script>
 {% endblock %}

@@ -1,0 +1,37 @@
+{% load dashboard_tags %}
+
+<nav class="pagination" role="navigation" aria-label="pagination">
+  <a class="pagination-previous" {% if not page.has_previous %}disabled{% endif %}>Previous</a>
+  <a class="pagination-next" {% if not page.has_next %}disabled{% endif %}>Next</a>
+  <ul class="pagination-list">
+    {% with page|paginator_range as pages %}
+      {# Put a 1 to start if there isn't one on the page #}
+      {% if 1 not in pages %}
+        <li>
+          <a class="pagination-link" aria-label="Goto page 1">1</a>
+        </li>
+        <li>
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+      {% endif %}
+
+      {# The actual page nubmers #}
+      {% for page_number in pages %}
+        <li>
+          <a class="pagination-link {% if page_number == page.number %}is-current{% endif %}"
+             aria-label="Goto page {{ page_number }}">{{ page_number }}</a>
+        </li>
+      {% endfor %}
+
+      {# The last page number if it's also not on the page #}
+      {% if page.paginator.num_pages not in pages %}
+        <li>
+          <span class="pagination-ellipsis">&hellip;</span>
+        </li>
+        <li>
+          <a class="pagination-link" aria-label="Goto page {{ page.paginator.num_pages }}">{{ page.paginator.num_pages }}</a>
+        </li>
+      {% endif %}
+    {% endwith %}
+  </ul>
+</nav>

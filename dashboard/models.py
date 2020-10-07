@@ -9,3 +9,6 @@ class ELeagueUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     university = models.TextField(unique=True)  # Only one user can be tied to a university
+
+    def __str__(self):
+        return self.university

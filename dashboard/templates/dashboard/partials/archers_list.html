@@ -1,0 +1,53 @@
+{% load dashboard_tags %}
+<div class="archers-table">
+  <div class="columns">
+    <div class="column is-three-quarters">
+      {% if num_archers == 1 %}
+        <p class="dash-subtitle subtitle">Displaying 1 archer</p>
+      {% else %}
+        {% if archers.start_index == archers.end_index %}
+          <p class="dash-subtitle subtitle">Displaying archer {{ archers.start_index }} of {{ num_archers }}</p>
+        {% else %}
+          <p class="dash-subtitle subtitle">Displaying
+            archer{{ archers|pluralize }} {{ archers.start_index }}-{{ archers.end_index }}
+            of {{ num_archers }}</p>
+        {% endif %}
+      {% endif %}
+      <div class="table-container">
+        <table class="table is-fullwidth is-hoverable">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Sex</th>
+            <th>Experience</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for archer in archers %}
+            <tr>
+              {% if archer.middle_names %}
+                <td>{{ archer.first_name }} {{ archer.middle_names }} {{ archer.last_name }}</td>
+              {% else %}
+                <td>{{ archer.first_name }} {{ archer.last_name }}</td>
+              {% endif %}
+              <td>{{ archer.get_sex_display }}</td>
+              <td>{{ archer.get_experience_display }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% if archers.has_next or archers.has_previous %}
+        {% include 'dashboard/partials/pagination.html' with page=archers %}
+      {% endif %}
+    </div>
+    <div class="column is-one-quarter">
+      <aside class="menu">
+        <p class="menu-label">Filter</p>
+        <ul class="menu-list">
+          {# TODO: List stuff here #}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>

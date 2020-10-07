@@ -271,7 +271,8 @@ section.is-inset {
 
 .dash-header {
   padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
+  line-height: 1;
 
   @include from($tablet) {
     padding-top: 2rem;
@@ -333,6 +334,17 @@ section.is-inset {
 
   & .button.is-primary .fas {
     color: map_get($brand, "0");
+  }
+
+  & .button.is-primary.is-outlined {
+    & .fas {
+      color: $primary;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: map_get($brand, "0");
+    }
   }
 
   & div {
@@ -422,6 +434,8 @@ a.button.is-light {
   &.is-disabled {
     background-color: map_get($grays, "20");
     color: map_get($grays, "70");
+
+    opacity: 0.7;
   }
 }
 
@@ -441,5 +455,50 @@ a.button.is-light {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     width: 50%;
+  }
+}
+
+.dash-subtitle.dash-subtitle.dash-subtitle {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  color: map_get($grays, "70");
+  font-weight: 500;
+}
+
+.archers-table {
+  & .table tr td {
+    border-color: map_get($grays, "20");
+    color: map_get($grays, "90");
+  }
+
+  & .table thead tr th {
+    border: 0 solid transparent;
+    font-weight: bold;
+
+    color: map_get($grays, "80");
+  }
+}
+
+.archer-search-container {
+  margin-top: -2rem;
+
+  position: relative;
+}
+
+.clear-text-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  transition: right ease-in-out 0.3s, opacity ease-in-out 0.25s;
+
+  &.hiding {
+    right: -8px;
+    opacity: 0;
+
+    &.hidden {
+      display: none;
+    }
   }
 }
