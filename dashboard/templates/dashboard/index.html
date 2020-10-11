@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load render_bundle from webpack_loader %} {# TODO: Lazy loading #}
 
 {% block navbar %}
   {% include 'dashboard/partials/navbar.html' %}
@@ -7,77 +8,41 @@
 {% block title %}Eleague Dashboard{% endblock %}
 
 {% block content %}
-  <div class="dash-header container is-section">
-    <h1 class="is-size-1 title">Dashboard</h1>
-  </div>
-  <div class="section recessed">
-    <div class="container">
-      {% for league in leagues %}
-        {% include 'dashboard/partials/league_splits_table.html' with league=league %}
-      {% empty %}
-        <div class="error-container">
-          <div class="content">
-            {# TODO: Work out how to configure the email address here #}
-            <h2 class="title is-size-2">There are no leagues running right now</h2>
-            <p>Check back again soon or <a href="mailto:foo@bar.baz">email the organisers</a> for an update about what's
-              coming next.</p>
-          </div>
-          <div class="graphic">
-            {% include 'dashboard/svgs/no_data.svg' %}
-          </div>
-        </div>
-      {% endfor %}
+  <div id="app">
+    <div class="dash-header container is-section">
+      <h1 class="is-size-1 title">Dashboard</h1>
     </div>
-  </div>
-  <div class="section">
-    <div class="container">
-      <h1 class="is-size-1 title dash-header">Archers</h1>
-      {% if archers|length_is:0 %}
-        <div class="error-container">
-          <div class="content">
-            <h2 class="title is-size-2">No archers registered</h2>
-            {#            TODO: Add archer registration page link#}
-            <p>Start registering archers for this academic year <a href="#">here</a>.</p>
-          </div>
-          <div class="graphic">
-            {% include 'dashboard/svgs/empty.svg' %}
-          </div>
-        </div>
-      {% else %}
-        <div class="columns">
-          <div class="column is-three-quarters">
-            <div class="archer-search-container" id="archerSearchContainer">
-              <div class="field">
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input" type="text" placeholder="Search archer names" id="archerSearch">
-                  <span class="icon is-small is-left">
-                  <i class="fas fa-search"></i>
-                </span>
-                </div>
-              </div>
-              <a href="#" class="clear-text-button hiding hidden" id="clearText" data-for="archerSearch">
-              <span class="icon">
-                <i class="fas fa-times-circle"></i>
-              </span>
-              </a>
+    <div class="section recessed">
+      <div class="container">
+        {% for league in leagues %}
+          {% include 'dashboard/partials/league_splits_table.html' with league=league %}
+        {% empty %}
+          <div class="error-container">
+            <div class="content">
+              {# TODO: Work out how to configure the email address here #}
+              <h2 class="title is-size-2">There are no leagues running right now</h2>
+              <p>Check back again soon or <a href="mailto:foo@bar.baz">email the organisers</a> for an update about
+                what's
+                coming next.</p>
+            </div>
+            <div class="graphic">
+              {% include 'dashboard/svgs/no_data.svg' %}
             </div>
           </div>
-        </div>
-        <div id="archersContainer">
-          {% include 'dashboard/partials/archers_list.html' with archers=archers num_archers=num_archers %}
-        </div>
-      {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <h1 class="is-size-1 title dash-header">Archers</h1>
+        <dashboard-archer-table></dashboard-archer-table>
+      </div>
     </div>
   </div>
+
+
 {% endblock %}
 
 {% block extra_js %}
-  <script type="text/javascript">
-  let field = document.getElementById("archerSearch");
-  let clear = document.getElementById("clearText");
-
-  field.addEventListener("keydown", function () {
-
-  });
-  </script>
+  {% render_bundle 'dashboard' %}
 {% endblock %}

@@ -451,6 +451,10 @@ a.button.is-light {
   align-items: center;
   text-align: center;
 
+  &.m-2 {
+    margin-top: 2rem;
+  }
+
   & .graphic {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -493,6 +497,10 @@ a.button.is-light {
 
   transition: right ease-in-out 0.3s, opacity ease-in-out 0.25s;
 
+  &:hover .icon .fas {
+    color: map_get($brand, "90");
+  }
+
   &.hiding {
     right: -8px;
     opacity: 0;
@@ -500,5 +508,80 @@ a.button.is-light {
     &.hidden {
       display: none;
     }
+  }
+}
+
+.spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  text-align: center;
+
+  animation: sk-rotate 2.0s infinite linear;
+
+  & .dot1,
+  & .dot2 {
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: $primary;
+    border-radius: 100%;
+
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+
+  & .dot2 {
+    top: auto;
+    bottom: 0;
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+}
+
+@-webkit-keyframes sk-rotate {
+  100% {
+    -webkit-transform: rotate(360deg)
+  }
+}
+
+@keyframes sk-rotate {
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg)
+  }
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% {
+    -webkit-transform: scale(0.0)
+  }
+  50% {
+    -webkit-transform: scale(1.0)
+  }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  }
+  50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+.reversed-columns {
+  /* TODO: Normal column direction on mobile to put the filters first? */
+  flex-direction: column;
+  display: flex;
+
+  @include from($tablet) {
+    flex-direction: column-reverse;
+    display: flex;
   }
 }
