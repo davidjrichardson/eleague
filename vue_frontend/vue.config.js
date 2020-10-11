@@ -1,8 +1,8 @@
 const BundleTracker = require("webpack-bundle-tracker");
 
 const pages = {
-    'index': {
-        entry: './src/index.js',
+    'dashboard': {
+        entry: './src/dashboard.js',
         chunks: ['chunk-vendors']
     },
 }
@@ -35,6 +35,15 @@ module.exports = {
             config.plugins.delete(`preload-${page}`);
             config.plugins.delete(`prefetch-${page}`);
         })
+
+        const svgRule = config.module.rule('svg');
+        svgRule.uses.clear();
+
+        svgRule.use('vue-loader')
+            .loader('vue-loader')
+            .end()
+            .use('vue-svg-loader')
+            .loader('vue-svg-loader')
 
         config
             .plugin('BundleTracker')

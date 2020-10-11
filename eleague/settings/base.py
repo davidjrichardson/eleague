@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'league',
     'dashboard',
     'webpack_loader',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'eleague.urls'
@@ -106,6 +110,10 @@ WEBPACK_LOADER = {
         'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    # Cross-Origin header accepting goes here
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
