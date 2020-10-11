@@ -1,21 +1,21 @@
 import Vue from "vue/dist/vue.js";
 import Vuex from "vuex";
+
 import createPersistedState from "vuex-persistedstate";
-import CounterModule from "./vuex_module_counter";
-import TitleModule from "./vuex_module_title";
+import DashboardArcherTableModule from "@/vuex/DashboardArcherTableModule";
 
 Vue.use(Vuex);
+
 let plugins = [];
 plugins.push(createPersistedState({
-        paths: ["counter.count", "title.title"]
+        paths: []
     }
 ));
 
 let store = new Vuex.Store({
     plugins: plugins,
     modules: {
-        counter: CounterModule,
-        title: TitleModule,
+        dashboard: DashboardArcherTableModule
     },
     strict: process.env.NODE_ENV !== "production",
 });
