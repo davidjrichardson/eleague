@@ -9,9 +9,12 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView
+from rest_framework import authentication, permissions
+from rest_framework.generics import GenericAPIView, ListAPIView
 
 from league.models import League, Archer
 from .models import ELeagueUser
+from .serializers import ArcherSerializer
 
 
 def get_archers(request, university: ELeagueUser) -> (Page, int):
@@ -25,6 +28,16 @@ def get_archers(request, university: ELeagueUser) -> (Page, int):
     else:
         paginator = Paginator(archers, per_page=per_page)
     return paginator.get_page(page_number), len(archers)
+
+
+class DashboardArchersListEndpoint(ListAPIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    serializer_class = ArcherSerializer
+
+    def get_queryset(self):
+        return Archer.objects.order_by('last_name', 'first_name', 'middle_names') \
+            .all()
 
 
 class DashboardArchersPaginatorView(LoginRequiredMixin, View):

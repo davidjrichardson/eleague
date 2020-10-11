@@ -37,6 +37,10 @@ class Archer(models.Model):
     def __repr__(self):
         return f'<{self.first_name} {self.last_name}@{self.university} ({self.sex}/{self.experience}) created at {self.created_at}>'
 
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.middle_names} {self.last_name}' if self.middle_names else f'{self.first_name} {self.last_name}'
+
     class Meta:
         constraints = [
             models.UniqueConstraint(

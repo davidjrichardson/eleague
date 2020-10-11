@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path
 
-from dashboard.views import DashboardIndexView, UserProfileView, ChangePasswordView
+from dashboard.views import DashboardIndexView, UserProfileView, ChangePasswordView, DashboardArchersListEndpoint
 
 urlpatterns = [
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='dashboard_logout'),
     path('profile/', UserProfileView.as_view(), name='dashboard_contact_info'),
     path('profile/change_password/', ChangePasswordView.as_view(), name='dashboard_change_password'),
+    path('api/archers', DashboardArchersListEndpoint.as_view(), name='dashboard_archers_endpoint'),
     path('', DashboardIndexView.as_view(), name='dashboard_index')
 ]
