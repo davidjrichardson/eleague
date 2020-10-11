@@ -32,7 +32,7 @@ export default {
         },
         async searchArcherList(context, searchStr) {
             console.log(searchStr);
-            let filterFn = (archer) => archer.full_name.indexOf(searchStr) > -1;
+            let filterFn = (archer) => archer.full_name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1;
             context.commit('filter', filterFn);
         }
     }

@@ -495,7 +495,10 @@ a.button.is-light {
   top: 8px;
   right: 8px;
 
-  transition: right ease-in-out 0.3s, opacity ease-in-out 0.25s;
+  //transition: right ease-in-out 0.3s, opacity ease-in-out 0.25s;
+
+  display: none;
+  opacity: 0;
 
   &:hover .icon .fas {
     color: map_get($brand, "90");
