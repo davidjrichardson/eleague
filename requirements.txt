@@ -1,5 +1,5 @@
 asgiref==3.2.3
-Django==3.0.1
+Django==3.0.14
 django-cors-headers==3.5.0
 django-rest-framework==0.1.0
 django-webpack-loader @ https://github.com/oleggromov/django-webpack-loader/archive/support-webpack-bundle-tracker-1.0.zip
