@@ -1,0 +1,26 @@
+{
+  "name": "eleague",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https:://github.com/davidjrichardson/eleague.git"
+  },
+  "scripts": {
+    "precommit-python": "black .",
+    "precommit-test": "cd frontend && npm test",
+    "start": "concurrently \"python manage.py runserver\" \"cd frontend && yarn start\""
+  },
+  "author": "David Richardson <david@tankski.co.uk>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "commitlint": "^12.1.4",
+    "husky": "^6.0.0"
+  },
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  }
+}
